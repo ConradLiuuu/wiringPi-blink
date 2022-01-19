@@ -5,16 +5,16 @@
 
 #define LED 1
 
-void blink_callback (const std_msgs::Bool::ConstPtr& msg)
+void blink_callback(const std_msgs::Bool::ConstPtr& msg)
 {
-  if (msg -> data == 1)
+  if (msg->data == true)
   {
-    digitalWrite (LED,HIGH);
+    digitalWrite (LED, HIGH);
     ROS_INFO("LED ON");
   }
-  if (msg -> data == 0)
+  else
   {
-    digitalWrite (LED,LOW);
+    digitalWrite (LED, LOW);
     ROS_INFO("LED OFF");
   }
 }
@@ -24,11 +24,10 @@ int main(int argc,char** argv)
   ros::init(argc ,argv ,"blink");
   ROS_INFO("Start RPI LED Blink node");
   wiringPiSetup();
-  pinMode(LED,OUTPUT);
+  pinMode(LED, OUTPUT);
 
-  ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("led_blink",10,blink_callback);
-  //led_blink is topic name
+  ros::NodeHandle nh;
+  ros::Subscriber sub = nh.subscribe("led_blink" ,10 ,blink_callback);
   ros::spin();
 }
 
